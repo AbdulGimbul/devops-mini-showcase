@@ -1,0 +1,26 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: simple-pod-alerts
+  labels:
+    # This label is important so the prometheus-operator discovers it
+    release: prometheus
+spec:
+  groups:
+  - name: kubernetes.rules
+    rules:
+    - alert: PodFrequentlyRestarts
+      # This is the condition. It checks if any pod has restarted at least once.
+      expr: kube_pod_container_status_restarts_total > 0
+      # The alert will become active ('Firing') if the condition is true for 1 minute.
+      for: 1m
+      labels:
+        severity: warning
+        # Route this alert using your alerting system's policy to a contact point named 'demo-slack'.
+        # For Grafana Alerting: create a Notification policy that matches label contact_point=demo-slack
+        # and points to the desired Contact point (Slack, Email, PagerDuty, etc.).
+        contact_point: "Slack Alert"
+      annotations:
+        # This is the message that will be displayed in the alert.
+        summary: "Pod is restarting"
+        description: "The pod '{{ $labels.pod }}' in the '{{ $labels.namespace }}' namespace has restarted."

@@ -1,0 +1,58 @@
+# NOTE: Demo pipeline configuration
+# This GitLab CI configuration is for demonstration/simulation only.
+# My current work uses GitLab CI, but for this showcase I am NOT using any office data.
+# I recreated a simple project purely to simulate the workflow for this example.
+ 
+stages:
+  - build
+  - test
+  - security
+  - deploy
+
+build_image:
+  stage: build
+  script:
+    - echo "Building Docker image..."
+    - docker build -t my-go-app:$CI_COMMIT_SHORT_SHA .
+    - echo "Image built successfully!"
+    # In a real pipeline, i would push this to a private registry like Harbor, GitLab's container registry, etc.
+    # - docker push my-go-app:$CI_COMMIT_SHORT_SHA
+
+run_tests:
+  stage: test
+  script:
+    - echo "Running unit tests..."
+    - go test ./... -v -race
+    - echo "Tests passed!"
+
+# Code analysis (SonarQube) + security benchmark
+
+sonarqube_scan:
+  stage: security
+  image: sonarsource/sonar-scanner-cli:latest
+  variables:
+    SONAR_HOST_URL: "$SONAR_HOST_URL"  # Set in CI/CD variables
+    SONAR_TOKEN: "$SONAR_TOKEN"        # Set in CI/CD variables (masked)
+  script:
+    - echo "Running SonarQube scan..."
+    - |
+      sonar-scanner \
+        -Dsonar.projectKey="$CI_PROJECT_PATH" \
+        -Dsonar.projectName="$CI_PROJECT_NAME" \
+        -Dsonar.sources=. \
+        -Dsonar.exclusions="**/vendor/**,**/*.png,**/*.jpg,**/*.jpeg,**/*.gif" \
+        -Dsonar.go.coverage.reportPaths=coverage.out || true
+  rules:
+    - when: on_success
+
+deploy_to_staging:
+  stage: deploy
+  script:
+    - echo "Deploying to Staging environment..."
+    # This step would use kubectl to apply the new image version to the cluster
+    - sed -i "s|image: .*|image: my-go-app:$CI_COMMIT_SHORT_SHA|g" k8s/deployment.yaml
+    - kubectl apply -f k8s/
+    - echo "Deployment successful!"
+  environment:
+    name: staging
+    url: http://localhost
