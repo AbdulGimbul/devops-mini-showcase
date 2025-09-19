@@ -90,7 +90,7 @@ This project is designed to directly address the key skills requested in the job
     * [`k8s/service.yaml`](./k8s/service.yaml): Provides a stable internal network endpoint for the application pods.
     * [`k8s/configmap.yaml`](./k8s/configmap.yaml): Externalizes application configuration, demonstrating a key 12-factor app principle.
 
-### ### 2. Infrastructure Provisioning Script (Terraform)
+### 2. Infrastructure Provisioning Script (Terraform)
 
 * **Terraform:** To demonstrate Infrastructure as Code (IaC) principles in a cloud-agnostic way, this project uses the Terraform `local` provider. The script in [`terraform/main.tf`](./terraform/main.tf) shows my understanding of Terraform syntax, providers, resources, and the `init`/`plan`/`apply` workflow, which is directly transferable to any cloud environment like AWS or Azure.
 
