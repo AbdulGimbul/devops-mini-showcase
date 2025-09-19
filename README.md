@@ -7,7 +7,7 @@ This repository serves as a practical demonstration of my DevOps skills, created
 It's important to note that my current professional experience is focused on **on-premise** infrastructure. The cloud-native skills demonstrated in this project, especially concerning tools like Terraform for public cloud environments, are the result of my dedicated **self-study and personal project work**.
 
 ---
-### ## Core Technologies Demonstrated
+### Core Technologies Demonstrated
 
 | Category | Technology | Purpose |
 | :--- | :--- | :--- |
@@ -18,7 +18,7 @@ It's important to note that my current professional experience is focused on **o
 | **Reverse Proxy & Ingress** | NGINX (via K8s Ingress) | Managing external access to the application within the Kubernetes cluster. |
 
 ---
-### ## Project Structure
+### Project Structure
 
 ```
 .
@@ -43,7 +43,7 @@ It's important to note that my current professional experience is focused on **o
 ```
 
 ---
-### ## How to Run Locally 🛠️
+### How to Run Locally 🛠️
 
 **Prerequisites:**
 * Docker Desktop (with Kubernetes enabled)
@@ -78,11 +78,11 @@ It's important to note that my current professional experience is focused on **o
     Open your web browser and navigate to `http://localhost`. You should see the message: "Hello from Kubernetes ConfigMap! Welcome to DevOps Engineer showcase."
 
 ---
-## ## Breakdown of Requirements
+## Breakdown of Requirements
 
 This project is designed to directly address the key skills requested in the job description.
 
-### ### 1. Web Application using Docker and Kubernetes
+### 1. Web Application using Docker and Kubernetes
 
 * **Docker:** The application is containerized using a multi-stage `Dockerfile` to create a lightweight, optimized production image. You can find the configuration here: [`./Dockerfile`](./Dockerfile).
 * **Kubernetes:** The application is deployed using several core Kubernetes objects:
@@ -94,7 +94,7 @@ This project is designed to directly address the key skills requested in the job
 
 * **Terraform:** To demonstrate Infrastructure as Code (IaC) principles in a cloud-agnostic way, this project uses the Terraform `local` provider. The script in [`terraform/main.tf`](./terraform/main.tf) shows my understanding of Terraform syntax, providers, resources, and the `init`/`plan`/`apply` workflow, which is directly transferable to any cloud environment like AWS or Azure.
 
-### ### 3. CI/CD Configuration (GitLab CI)
+### 3. CI/CD Configuration (GitLab CI)
 
 * **GitLab CI:** The CI/CD pipeline is defined in the [`.gitlab-ci.yml`](./.gitlab-ci.yml) file. This configuration demonstrates my ability to structure automated workflows using GitLab's syntax. The pipeline is broken down into logical stages:
     1.  **Build:** Compiles the application and builds the Docker image.
@@ -103,7 +103,7 @@ This project is designed to directly address the key skills requested in the job
 
     This file shows how I would structure a pipeline. To execute it, it would need to be connected to a GitLab instance with a configured GitLab Runner.
 
-### ### 4. Monitoring, Alerting, and Security Solution
+### 4. Monitoring, Alerting, and Security Solution
 
 This repository demonstrates alerting with Prometheus and Alertmanager, routed to Slack.
 
@@ -127,6 +127,6 @@ My approach integrates security into the CI/CD pipeline (DevSecOps):
 1.  **Image Scanning:** I would add a job to the GitLab CI pipeline using a tool like **Sonarqube** to scan the Docker image for known vulnerabilities (CVEs) before pushing it to a registry.
 
 
-### ### 5. NGINX as a Reverse Proxy
+### 5. NGINX as a Reverse Proxy
 
 * **NGINX Ingress:** This requirement is fulfilled using a Kubernetes **Ingress** resource, defined in [`k8s/ingress.yaml`](./k8s/ingress.yaml). The Ingress is managed by an **NGINX Ingress Controller** running in the cluster, which acts as a sophisticated reverse proxy to route external traffic from `http://localhost` to the correct application service.
